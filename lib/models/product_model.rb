@@ -25,7 +25,7 @@ class Product
   end
 
   def value_with_tax
-    raise NotImplementedError, "value_with_tax is not implemented for class #{self.class.name}"
+    (raw_price + tax_value).round(2)
   end
 
   def imported?

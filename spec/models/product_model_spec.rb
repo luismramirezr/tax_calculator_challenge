@@ -96,4 +96,50 @@ RSpec.describe Product do
                        "import tax value and import good tax value when category is not in TAX_FREE_CATEGORIES and is imported"
     end
   end
+
+  describe "value_with_tax" do
+    it "should return raw price with total tax value, rounded with 2 decimal places" do
+      parameters = {
+        name: "music cd",
+        price: 14.99,
+        category: "OTHER",
+        imported: false
+      }
+      product = Product.new(parameters[:name], parameters[:price], parameters[:category], parameters[:imported])
+
+      value_with_tax = product.value_with_tax
+
+      expect(value_with_tax).to be(16.49)
+    end
+  end
+
+  describe "provided inputs" do
+    shared_examples :test_provided_input do |name, price, category, imported, expected|
+      it "should return #{expected} for#{imported ? " imported " : ""} #{name} at #{price}" do
+        product = Product.new(name, price, category, imported)
+
+        value_with_tax = product.value_with_tax
+
+        expect(value_with_tax).to be(expected)
+      end
+    end
+
+    describe "input 1" do
+      include_examples :test_provided_input, "book", 12.49, "BOOK", false, 12.49
+      include_examples :test_provided_input, "music cd", 14.99, "OTHER", false, 16.49
+      include_examples :test_provided_input, "chocolate bar", 0.85, "FOOD", false, 0.85
+    end
+
+    describe "input 2" do
+      include_examples :test_provided_input, "box of chocolates", 10.0, "FOOD", true, 10.50
+      include_examples :test_provided_input, "bottle of perfume", 47.5, "OTHER", true, 54.65
+    end
+
+    describe "input 3" do
+      include_examples :test_provided_input, "bottle of perfume", 27.99, "OTHER", true, 32.19
+      include_examples :test_provided_input, "bottle of perfume", 18.99, "OTHER", false, 20.89
+      include_examples :test_provided_input, "packet of headache pills", 9.75, "MEDICAL", false, 9.75
+      include_examples :test_provided_input, "boxes of chocolate", 11.25, "FOOD", true, 11.85
+    end
+  end
 end
