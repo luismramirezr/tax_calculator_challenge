@@ -15,6 +15,10 @@ class Invoice
     @products.reduce(0) { |sum, product| sum + product.total_tax }
   end
 
+  def total
+    @products.reduce(0) { |sum, product| sum + product.total_with_tax }
+  end
+
   private
 
   def validate(invoice_products)

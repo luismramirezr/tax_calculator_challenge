@@ -43,4 +43,16 @@ RSpec.describe Invoice do
       expect(invoice.tax_value).to be(1.50)
     end
   end
+
+  describe "total" do
+    it "should return invoice total value with taxes" do
+      product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
+      product2 = InvoiceProduct.new("music cd", 14.99, "OTHER", false, 1)
+      product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
+
+      invoice = Invoice.new([product1, product2, product3])
+
+      expect(invoice.total).to be(42.32)
+    end
+  end
 end
