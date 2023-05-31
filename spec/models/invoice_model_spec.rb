@@ -31,4 +31,16 @@ RSpec.describe Invoice do
       end.to raise_error(ArgumentError, "invoice products must be a instance of InvoiceProduct")
     end
   end
+
+  describe "tax_value" do
+    it "should return all the taxes from the products" do
+      product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
+      product2 = InvoiceProduct.new("music cd", 14.99, "OTHER", false, 1)
+      product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
+
+      invoice = Invoice.new([product1, product2, product3])
+
+      expect(invoice.tax_value).to be(1.50)
+    end
+  end
 end
