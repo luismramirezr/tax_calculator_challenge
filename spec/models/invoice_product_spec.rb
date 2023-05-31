@@ -43,4 +43,12 @@ RSpec.describe InvoiceProduct do
       end.to raise_error(ArgumentError, "quantity must be a positive integer and greater than 0")
     end
   end
+
+  describe "total_tax" do
+    it "should return total tax value" do
+      invoice_product = InvoiceProduct.new("imported boxes of chocolates", 11.25, "FOOD", true, 3)
+
+      expect(invoice_product.total_tax).to eq(1.8)
+    end
+  end
 end

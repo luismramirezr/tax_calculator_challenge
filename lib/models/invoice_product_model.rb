@@ -12,6 +12,10 @@ class InvoiceProduct < Product
     @qty = quantity
   end
 
+  def total_tax
+    (tax_value * qty).round(2)
+  end
+
   private
 
   def validate_quantity(quantity)
