@@ -26,9 +26,7 @@ RSpec.describe Product do
         category: "BOOK",
         imported: false
       }
-      puts parameters
       parameters[parameter_name.to_sym] = parameter_value
-      puts parameters
       it "should raise ArgumentError if #{parameter_name} #{error_description}" do
         expect do
           Product.new(parameters[:name], parameters[:price], parameters[:category],
@@ -56,6 +54,46 @@ RSpec.describe Product do
 
     describe "imported" do
       include_examples :validation, "imported", "true", "imported must be a boolean", "imported is not a boolean"
+    end
+  end
+
+  describe "tax_value" do
+    shared_examples :tax_value do |name, price, category, imported, expected, test_label|
+      it "should return #{test_label}" do
+        product = Product.new(name, price, category, imported)
+
+        tax_value = product.tax_value
+
+        expect(tax_value).to be(expected)
+      end
+    end
+
+    it "should round up tax value to nearest 0.05" do
+      parameters = {
+        name: "music cd",
+        price: 14.99,
+        category: "OTHER",
+        imported: false
+      }
+      product = Product.new(parameters[:name], parameters[:price], parameters[:category], parameters[:imported])
+
+      tax_value = product.tax_value
+
+      expect(tax_value).to be(1.5)
+    end
+
+    describe "good tax" do
+      include_examples :tax_value, "book", 20.0, "OTHER", false, 2.0,
+                       "only good tax value when category is OTHER and is not imported"
+      include_examples :tax_value, "book", 19.9, "BOOK", false, 0.0,
+                       "0 when category is in TAX_FREE_CARTEGORIES and is not imported"
+    end
+
+    describe "import tax" do
+      include_examples :tax_value, "imported chocolate", 10.0, "FOOD", true, 0.5,
+                       "only import tax value when category is in TAX_FREE_CATEGORIES and is imported"
+      include_examples :tax_value, "imported perfume", 47.50, "OTHER", true, 7.15,
+                       "import tax value and import good tax value when category is not in TAX_FREE_CATEGORIES and is imported"
     end
   end
 end
