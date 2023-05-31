@@ -73,7 +73,7 @@ RSpec.describe InvoiceProduct do
 
     describe "input 1" do
       include_examples :test_provided_input, "book", 12.49, "BOOK", false, 2, 24.98
-      include_examples :test_provided_input, "music cd", 14.99, "OTHER", false, 1, 16.49
+      include_examples :test_provided_input, "music CD", 14.99, "OTHER", false, 1, 16.49
       include_examples :test_provided_input, "chocolate bar", 0.85, "FOOD", false, 1, 0.85
     end
 

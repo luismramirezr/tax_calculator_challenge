@@ -19,6 +19,15 @@ class Invoice
     @products.reduce(0) { |sum, product| sum + product.total_with_tax }
   end
 
+  def invoice
+    products = @products.reduce("") do |str, product|
+      str + "#{product.qty} #{product.name}: #{format("%.2f", product.total_with_tax)}\n"
+    end
+    products += "Sales Taxes: #{format("%.2f", tax_value)}"
+    products += "\nTotal: #{format("%.2f", total)}"
+    products
+  end
+
   private
 
   def validate(invoice_products)

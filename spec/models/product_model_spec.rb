@@ -70,7 +70,7 @@ RSpec.describe Product do
 
     it "should round up tax value to nearest 0.05" do
       parameters = {
-        name: "music cd",
+        name: "music CD",
         price: 14.99,
         category: "OTHER",
         imported: false
@@ -100,7 +100,7 @@ RSpec.describe Product do
   describe "value_with_tax" do
     it "should return raw price with total tax value, rounded with 2 decimal places" do
       parameters = {
-        name: "music cd",
+        name: "music CD",
         price: 14.99,
         category: "OTHER",
         imported: false
@@ -126,7 +126,7 @@ RSpec.describe Product do
 
     describe "input 1" do
       include_examples :test_provided_input, "book", 12.49, "BOOK", false, 12.49
-      include_examples :test_provided_input, "music cd", 14.99, "OTHER", false, 16.49
+      include_examples :test_provided_input, "music CD", 14.99, "OTHER", false, 16.49
       include_examples :test_provided_input, "chocolate bar", 0.85, "FOOD", false, 0.85
     end
 

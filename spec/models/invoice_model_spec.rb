@@ -4,7 +4,7 @@ RSpec.describe Invoice do
   describe "constructor" do
     it "should create invoice with given products" do
       product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
-      product2 = InvoiceProduct.new("music cd", 14.99, "OTHER", false, 1)
+      product2 = InvoiceProduct.new("music CD", 14.99, "OTHER", false, 1)
       product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
 
       invoice = Invoice.new([product1, product2, product3])
@@ -35,7 +35,7 @@ RSpec.describe Invoice do
   describe "tax_value" do
     it "should return all the taxes from the products" do
       product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
-      product2 = InvoiceProduct.new("music cd", 14.99, "OTHER", false, 1)
+      product2 = InvoiceProduct.new("music CD", 14.99, "OTHER", false, 1)
       product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
 
       invoice = Invoice.new([product1, product2, product3])
@@ -47,12 +47,30 @@ RSpec.describe Invoice do
   describe "total" do
     it "should return invoice total value with taxes" do
       product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
-      product2 = InvoiceProduct.new("music cd", 14.99, "OTHER", false, 1)
+      product2 = InvoiceProduct.new("music CD", 14.99, "OTHER", false, 1)
       product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
 
       invoice = Invoice.new([product1, product2, product3])
 
       expect(invoice.total).to be(42.32)
+    end
+  end
+
+  describe "invoice" do
+    it "should return invoice as string" do
+      product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
+      product2 = InvoiceProduct.new("music CD", 14.99, "OTHER", false, 1)
+      product3 = InvoiceProduct.new("chocolate bar", 0.85, "FOOD", false, 1)
+
+      invoice = Invoice.new([product1, product2, product3])
+
+      expected_output = "2 book: 24.98"
+      expected_output += "\n1 music CD: 16.49"
+      expected_output += "\n1 chocolate bar: 0.85"
+      expected_output += "\nSales Taxes: 1.50"
+      expected_output += "\nTotal: 42.32"
+
+      expect(invoice.invoice).to eq(expected_output)
     end
   end
 end
