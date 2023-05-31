@@ -16,6 +16,10 @@ class InvoiceProduct < Product
     (tax_value * qty).round(2)
   end
 
+  def total_with_tax
+    (value_with_tax * qty).round(2)
+  end
+
   private
 
   def validate_quantity(quantity)
