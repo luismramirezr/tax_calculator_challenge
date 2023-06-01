@@ -9,10 +9,10 @@ TaxCalculator gem. It accepts a string in the following format:
 3 imported boxes of chocolates at 11.25
 ```
 
-It will calculate taxes and total value based on these rule:
+It will calculate taxes and total value based on the following rules:
 
 1. All goods have a tax rate of 10% except books, food, and medical products
-1. Imported products have and additional rate of 5%, with no exemptions
+1. Imported products have an additional rate of 5%, with no exemptions
 1. Tax is rounded to the next 0.05 multiple
 
 Output should be total value per item, total taxes and total invoice value:
