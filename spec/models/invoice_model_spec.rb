@@ -56,7 +56,7 @@ RSpec.describe Invoice do
     end
   end
 
-  describe "invoice" do
+  describe "to_s" do
     it "should return invoice as string" do
       product1 = InvoiceProduct.new("book", 12.49, "BOOK", false, 2)
       product2 = InvoiceProduct.new("music CD", 14.99, "OTHER", false, 1)
@@ -70,7 +70,7 @@ RSpec.describe Invoice do
       expected_output += "\nSales Taxes: 1.50"
       expected_output += "\nTotal: 42.32"
 
-      expect(invoice.invoice).to eq(expected_output)
+      expect(invoice.to_s).to eq(expected_output)
     end
   end
 end
