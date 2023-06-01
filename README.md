@@ -1,33 +1,70 @@
 # TaxCalculator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tax_calculator`. To experiment with that code, run `bin/console` for an interactive prompt.
+TaxCalculator gem. It accepts a string in the following format:
 
-TODO: Delete this and the text above, and describe your gem
+```bash
+1 imported bottle of perfume at 27.99
+1 bottle of perfume at 18.99
+1 packet of headache pills at 9.75
+3 imported boxes of chocolates at 11.25
+```
+
+It will calculate taxes and total value based on these rule:
+
+1. All goods have a tax rate of 10% except books, food, and medical products
+1. Imported products have and additional rate of 5%, with no exemptions
+1. Tax is rounded to the next 0.05 multiple
+
+Output should be total value per item, total taxes and total invoice value:
+
+```bash
+2 book: 24.98
+1 music CD: 16.49
+1 chocolate bar: 0.85
+Sales Taxes: 1.50
+Total: 42.32
+```
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Build the gem:
 
-    $ bundle add tax_calculator
+```bash
+gem build tax_calculator.gemspec
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Then, install:
 
-    $ gem install tax_calculator
+```bash
+gem install ./tax_calculator-0.1.0.gem
+```
+
+Finally, run in bash:
+
+```bash
+irb
+irb(main):001:0> require 'tax_calculator'
+=> true
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Call `TaxCalculator.print_invoice` with a string of products:
 
-## Development
+```bash
+irb(main):002:0> input = "2 book at 12.49\n1 music CD at 14.99\n1 chocolate bar at 0.85"
+=> "2 book at 12.49\n1 music CD at 14.99\n1 chocolate bar at 0.85"
+irb(main):003:0> TaxCalculator.print_invoice(input)
+2 book: 24.98
+1 music CD: 16.49
+1 chocolate bar: 0.85
+Sales Taxes: 1.50
+Total: 42.32
+=> "2 book: 24.98\n1 music CD: 16.49\n1 chocolate bar: 0.85\nSales Taxes: 1.50\nTotal: 42.32"
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/tax_calculator.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+## Limitations
+1. Gem only accepts integers for quantity and float for price
+1. Product categorization is based on the words "book", "pills" and "chocolate"
+1. Import tax is applied when product has "imported" in description
+1. Input should have the same structure: "{qty} {description} at {float price}", with one product per line
